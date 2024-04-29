@@ -16,10 +16,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Java version
-        uses: actions/setup-java@v1
+      - name: 'Download latest JDK 17'
+        run: |
+          wget \
+            --no-verbose \
+            --directory-prefix $RUNNER_TEMP \
+            https://download.oracle.com/java/17/latest/jdk-17_linux-x64_bin.tar.gz
+      - name: 'Set up JDK'
+        uses: actions/setup-java@v2
         with:
-          java-version: 'java17'
+          java-version: 17
+          distribution: jdkfile
+          jdkFile: ${{ runner.temp }}/jdk-17_linux-x64_bin.tar.gz
 
       - name: Build with Maven
         run: mvn clean install

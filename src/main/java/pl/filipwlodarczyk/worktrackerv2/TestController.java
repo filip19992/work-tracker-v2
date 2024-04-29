@@ -19,6 +19,11 @@ public class TestController {
         return getTests();
     }
 
+    @GetMapping()
+    public String hello() {
+        return "Kocham Cie <3";
+    }
+
     private ArrayList<Test> getTests() {
         var allTest = testRepository.findAll();
         var returnList = new ArrayList<Test>();
@@ -27,10 +32,5 @@ public class TestController {
         return returnList;
     }
 
-
-    @GetMapping()
-    public String hello() {
-        return "Kocham Cie <3";
-    }
 
 }

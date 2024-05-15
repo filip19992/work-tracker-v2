@@ -24,9 +24,10 @@ public class UserDB implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    public UserDB(String username, String password) {
+    public UserDB(String username, String password, Role role) {
         this.username = username;
         this.password = password;
+        this.role = role;
     }
 
     public UserDB() {

@@ -13,6 +13,6 @@ public class UserServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepistory.findByUsername(username);
+        return userRepistory.findByUsername(username).orElseThrow();
     }
 }

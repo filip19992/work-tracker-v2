@@ -1,23 +1,28 @@
 package pl.filipwlodarczyk.worktrackerv2.user;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import lombok.Builder;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
+import pl.filipwlodarczyk.worktrackerv2.user.authorities.Role;
 
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table
+@Builder
 public class UserDB implements UserDetails {
     @GeneratedValue
     @Id
     private Integer id;
     private String username;
     private String password;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     public UserDB(String username, String password) {
         this.username = username;
@@ -29,7 +34,7 @@ public class UserDB implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
     @Override

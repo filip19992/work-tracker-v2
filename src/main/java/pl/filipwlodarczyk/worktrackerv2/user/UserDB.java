@@ -13,14 +13,12 @@ import java.util.List;
 
 @Entity
 @Table
-@Builder
 public class UserDB implements UserDetails {
     @GeneratedValue
     @Id
     private Integer id;
     private String username;
     private String password;
-
     @Enumerated(EnumType.STRING)
     private Role role;
 

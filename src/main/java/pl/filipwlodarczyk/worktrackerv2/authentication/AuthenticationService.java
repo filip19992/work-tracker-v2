@@ -17,12 +17,7 @@ public class AuthenticationService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     public AuthenticationResponse register(RegisterRequest registerRequest) {
-        var user = UserDB
-                .builder()
-                .username(registerRequest.username())
-                .password(getEncodedPassword(registerRequest.password()))
-                .role(Role.USER)
-                .build();
+        var user = new UserDB(registerRequest.username(), registerRequest.password(), Role.USER);
 
         userRepistory.save(user);
 

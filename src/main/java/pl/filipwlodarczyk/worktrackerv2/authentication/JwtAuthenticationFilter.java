@@ -20,9 +20,9 @@ import java.io.IOException;
 @Component
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
+    public static final String AUTHORIZATION_HEADER_NAME = "Authorization";
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
-    public static final String AUTHORIZATION_HEADER_NAME = "Authorization";
     public static final int JWT_BEGIN_INDEX = 7;
 
     @Override

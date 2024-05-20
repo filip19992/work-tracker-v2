@@ -31,8 +31,7 @@ public class SecurityConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return username ->
-            userService.loadUserByUsername(username);
+        return userService::loadUserByUsername;
     }
 
     @Bean

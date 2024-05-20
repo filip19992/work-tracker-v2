@@ -25,12 +25,9 @@ import pl.filipwlodarczyk.worktrackerv2.user.UserServiceImpl;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-    @Autowired
-    UserServiceImpl userService;
-    @Autowired
-    JwtAuthenticationFilter jwtAuthFilter;
-    @Autowired
-    AuthenticationProvider authenticationProvider;
+    private final UserServiceImpl userService;
+    private final JwtAuthenticationFilter jwtAuthFilter;
+    private final AuthenticationProvider authenticationProvider;
 
     @Bean
     public UserDetailsService userDetailsService() {

@@ -19,12 +19,17 @@ public class AuthenticationService {
     public AuthenticationResponse register(RegisterRequest registerRequest) {
         var user = new UserDB(registerRequest.username(), registerRequest.password(), Role.USER);
 
+
+        if (isUserRegistered(user))
+            return new AuthenticationResponse(false, "Cannot register user!");
+
         userRepistory.save(user);
 
         var jwtToken = generateJwtToken(user);
 
         return AuthenticationResponse.builder()
                 .token(jwtToken)
+                .authenticated(true)
                 .build();
     }
 
@@ -37,7 +42,12 @@ public class AuthenticationService {
 
         return AuthenticationResponse.builder()
                 .token(jwtToken)
+                .authenticated(true)
                 .build();
+    }
+
+    private boolean isUserRegistered(UserDB user) {
+        return userRepistory.findByUsername(user.getUsername()).isPresent();
     }
 
     private String generateJwtToken(UserDB user) {

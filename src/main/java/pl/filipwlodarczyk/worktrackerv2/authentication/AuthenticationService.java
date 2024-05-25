@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.filipwlodarczyk.worktrackerv2.user.UserDB;
 import pl.filipwlodarczyk.worktrackerv2.user.UserRepistory;
@@ -15,6 +14,7 @@ import pl.filipwlodarczyk.worktrackerv2.user.authorities.Role;
 public class AuthenticationService {
     private final UserRepistory userRepistory;
     private final JwtService jwtService;
+    @Lazy
     private final AuthenticationManager authenticationManager;
     public AuthenticationResponse register(RegisterRequest registerRequest) {
         var user = new UserDB(registerRequest.username(), registerRequest.password(), Role.USER);

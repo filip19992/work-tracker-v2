@@ -14,7 +14,6 @@ import pl.filipwlodarczyk.worktrackerv2.user.authorities.Role;
 @RequiredArgsConstructor
 public class AuthenticationService {
     private final UserRepistory userRepistory;
-    private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     public AuthenticationResponse register(RegisterRequest registerRequest) {
@@ -55,9 +54,5 @@ public class AuthenticationService {
 
     private UsernamePasswordAuthenticationToken getAuthenticationToken(LoginRequest loginRequest) {
         return new UsernamePasswordAuthenticationToken(loginRequest.username(), loginRequest.password());
-    }
-
-    private String getEncodedPassword(String password) {
-        return passwordEncoder.encode(password);
     }
 }

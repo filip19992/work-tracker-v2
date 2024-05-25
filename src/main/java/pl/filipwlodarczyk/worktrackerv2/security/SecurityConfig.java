@@ -19,6 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import pl.filipwlodarczyk.worktrackerv2.authentication.JwtAuthenticationFilter;
+import pl.filipwlodarczyk.worktrackerv2.user.UserRepistory;
 import pl.filipwlodarczyk.worktrackerv2.user.UserServiceImpl;
 
 @Configuration

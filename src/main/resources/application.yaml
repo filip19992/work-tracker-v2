@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:sqlserver://work-tracker-db-server.database.windows.net:1433;database=work-tracker-db;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;
+    url: jdbc:sqlserver://work-tracker-db-server.database.windows.net:1433;database=worktracker-db;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;
     username: wlofi001
     password: Gliniana8???
   jpa:

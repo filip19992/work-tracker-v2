@@ -16,9 +16,11 @@ public class ToDoController {
     private final UserServiceImpl userService;
 
 
-    @GetMapping("/{userId}")
-    public ResponseEntity<List<ToDoResponse>> getToDos(@PathVariable("userId") Integer userId) {
-        return ResponseEntity.ok(todoService.getToDoByUserId(userId));
+    @GetMapping()
+    public ResponseEntity<List<ToDoResponse>> getToDos(Principal principal) {
+        var name = principal.getName();
+        var user = userService.findUserByUsername(name);
+        return ResponseEntity.ok(todoService.getToDoByUserId(user.getId()));
     }
 
     @PostMapping("/add")

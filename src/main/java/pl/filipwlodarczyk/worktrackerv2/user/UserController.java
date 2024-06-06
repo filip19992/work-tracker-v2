@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -21,5 +22,10 @@ public class UserController {
         var result = userService.getUsers();
 
         return ResponseEntity.ok(result);
+    }
+
+    @GetMapping(value = "/username")
+    public String currentUserName(Principal principal) {
+        return principal.getName();
     }
 }

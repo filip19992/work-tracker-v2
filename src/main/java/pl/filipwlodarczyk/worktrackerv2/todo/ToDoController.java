@@ -1,5 +1,6 @@
 package pl.filipwlodarczyk.worktrackerv2.todo;
 
+import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +31,13 @@ public class ToDoController {
         var toDoDTO = todoService.addToDo(addToDoRequest.content(), user);
 
         return ResponseEntity.ok("added todo" + toDoDTO.getContent());
+    }
+
+    @DeleteMapping("/delete/{todoId}")
+    public ResponseEntity<String> deleteTodo(@PathParam("todoId") Long todoId) {
+        todoService.removeTodo(todoId);
+
+        return ResponseEntity.ok("Removed todo");
     }
 }
 

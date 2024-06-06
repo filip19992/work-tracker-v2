@@ -26,4 +26,8 @@ public class ToDoService {
     public ToDoDTO addToDo(String content, UserDB user) {
         return toDoRepository.save(new ToDoDTO(user, content));
     }
+
+    public void removeTodo(Long todoId) {
+        toDoRepository.deleteById(todoId);
+    }
 }

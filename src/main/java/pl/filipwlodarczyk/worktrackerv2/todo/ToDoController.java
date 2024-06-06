@@ -17,7 +17,7 @@ public class ToDoController {
 
 
     @GetMapping("/{userId}")
-    public ResponseEntity<List<ToDoDTO>> getToDo(@PathVariable("userId") Integer userId) {
+    public ResponseEntity<List<ToDoResponse>> getToDos(@PathVariable("userId") Integer userId) {
         return ResponseEntity.ok(todoService.getToDoByUserId(userId));
     }
 

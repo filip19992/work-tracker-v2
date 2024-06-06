@@ -5,19 +5,25 @@ import org.springframework.stereotype.Service;
 import pl.filipwlodarczyk.worktrackerv2.user.UserDB;
 
 import java.util.List;
+import java.util.function.Function;
 
 @Service
 @RequiredArgsConstructor
 public class ToDoService {
     private final ToDoRepository toDoRepository;
 
-    public List<ToDoDTO> getToDoByUserId(Integer userId) {
-        return toDoRepository.findByUserId(userId).orElse(List.of());
+    public List<ToDoResponse> getToDoByUserId(Integer userId) {
+        return toDoRepository.findByUserId(userId).orElse(List.of())
+                .stream()
+                .map(mapToResponse())
+                .toList();
+    }
+
+    private Function<ToDoDTO, ToDoResponse> mapToResponse() {
+        return c -> new ToDoResponse(c.getId(), c.getContent());
     }
 
     public ToDoDTO addToDo(String content, UserDB user) {
-        var saved = toDoRepository.save(new ToDoDTO(user, content));
-
-        return saved;
+        return toDoRepository.save(new ToDoDTO(user, content));
     }
 }

@@ -34,8 +34,6 @@ public class AuthenticationService {
     }
 
     public AuthenticationResponse login(LoginRequest loginRequest) {
-        authenticate(loginRequest);
-
         var user = findUser(loginRequest);
 
         var jwtToken = generateJwtToken(user);
@@ -56,10 +54,6 @@ public class AuthenticationService {
 
     private UserDB findUser(LoginRequest loginRequest) {
         return userRepistory.findByUsername(loginRequest.username()).orElseThrow();
-    }
-
-    private void authenticate(LoginRequest loginRequest) {
-        authenticationManager.authenticate(getAuthenticationToken(loginRequest));
     }
 
     private UsernamePasswordAuthenticationToken getAuthenticationToken(LoginRequest loginRequest) {

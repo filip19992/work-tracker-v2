@@ -30,4 +30,8 @@ public class UserServiceImpl implements UserDetailsService {
         return usernames;
 
     }
+
+    public UserDB findUserByUsername(String username) {
+        return userRepistory.findByUsername(username).orElseThrow();
+    }
 }

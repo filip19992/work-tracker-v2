@@ -31,6 +31,10 @@ public class UserDB implements UserDetails {
     public UserDB() {
     }
 
+    public Integer getId() {
+        return id;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));

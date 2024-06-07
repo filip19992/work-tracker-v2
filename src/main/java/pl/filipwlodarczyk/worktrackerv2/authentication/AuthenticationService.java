@@ -9,6 +9,8 @@ import pl.filipwlodarczyk.worktrackerv2.user.UserDB;
 import pl.filipwlodarczyk.worktrackerv2.user.UserRepistory;
 import pl.filipwlodarczyk.worktrackerv2.user.authorities.Role;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
@@ -36,11 +38,18 @@ public class AuthenticationService {
     public AuthenticationResponse login(LoginRequest loginRequest) {
         var user = findUser(loginRequest);
 
-        var jwtToken = generateJwtToken(user);
+        if (user.isPresent()) {
+            var foundUser = user.get();
+            var jwtToken = generateJwtToken(foundUser);
+
+            return AuthenticationResponse.builder()
+                    .token(jwtToken)
+                    .authenticated(true)
+                    .build();
+        }
 
         return AuthenticationResponse.builder()
-                .token(jwtToken)
-                .authenticated(true)
+                .authenticated(false)
                 .build();
     }
 
@@ -52,8 +61,8 @@ public class AuthenticationService {
         return jwtService.generateToken(user);
     }
 
-    private UserDB findUser(LoginRequest loginRequest) {
-        return userRepistory.findByUsername(loginRequest.username()).orElseThrow();
+    private Optional<UserDB> findUser(LoginRequest loginRequest) {
+        return userRepistory.findByUsername(loginRequest.username());
     }
 
     private UsernamePasswordAuthenticationToken getAuthenticationToken(LoginRequest loginRequest) {

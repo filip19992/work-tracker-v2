@@ -1,13 +1,9 @@
 package pl.filipwlodarczyk.worktrackerv2.authentication;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 import pl.filipwlodarczyk.worktrackerv2.user.UserDB;
 import pl.filipwlodarczyk.worktrackerv2.user.UserRepistory;
-import pl.filipwlodarczyk.worktrackerv2.user.authorities.Role;
 
 import java.util.Optional;
 
@@ -16,10 +12,9 @@ import java.util.Optional;
 public class AuthenticationService {
     private final UserRepistory userRepistory;
     private final JwtService jwtService;
-    @Lazy
-    private final AuthenticationManager authenticationManager;
+
     public AuthenticationResponse register(RegisterRequest registerRequest) {
-        var user = new UserDB(registerRequest.username(), registerRequest.password(), Role.USER);
+        var user = UserFactory.createUser(registerRequest.username(), registerRequest.password());
 
 
         if (isUserRegistered(user))
@@ -63,9 +58,5 @@ public class AuthenticationService {
 
     private Optional<UserDB> findUser(LoginRequest loginRequest) {
         return userRepistory.findByUsername(loginRequest.username());
-    }
-
-    private UsernamePasswordAuthenticationToken getAuthenticationToken(LoginRequest loginRequest) {
-        return new UsernamePasswordAuthenticationToken(loginRequest.username(), loginRequest.password());
     }
 }

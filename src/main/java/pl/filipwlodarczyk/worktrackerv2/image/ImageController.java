@@ -39,10 +39,13 @@ public class ImageController {
                 return ResponseEntity.status(404).body(null);
             }
 
-            BlobClient blobClient = containerClient.getBlobClient(blobName);
+            BlobClient blobClient;
+
+             blobClient = containerClient.getBlobClient(blobName);
 
             if (!blobClient.exists()) {
-                return ResponseEntity.status(404).body(null);
+                blobName = "default.jpg";
+                blobClient = containerClient.getBlobClient(blobName);
             }
 
             response.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);

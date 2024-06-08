@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import pl.filipwlodarczyk.worktrackerv2.user.UserDB;
 import pl.filipwlodarczyk.worktrackerv2.user.UserRepistory;
 
+import java.lang.reflect.Field;
 import java.util.Optional;
 
 @Service
@@ -16,13 +17,15 @@ public class AuthenticationService {
     public AuthenticationResponse register(RegisterRequest registerRequest) {
         var user = UserFactory.createUser(registerRequest.username(), registerRequest.password());
 
-
-        if (isUserRegistered(user))
+        if (isUserRegistered(user)) {
+            logUserInfo("Registration Failed", user);
             return new AuthenticationResponse(false, "Cannot register user!");
+        }
 
         userRepistory.save(user);
 
         var jwtToken = generateJwtToken(user);
+        logUserInfo("User Registered", user);
 
         return AuthenticationResponse.builder()
                 .token(jwtToken)
@@ -36,6 +39,7 @@ public class AuthenticationService {
         if (user.isPresent()) {
             var foundUser = user.get();
             var jwtToken = generateJwtToken(foundUser);
+            logUserInfo("User Logged In", foundUser);
 
             return AuthenticationResponse.builder()
                     .token(jwtToken)
@@ -43,6 +47,7 @@ public class AuthenticationService {
                     .build();
         }
 
+        logUserInfo("Login Failed", null);
         return AuthenticationResponse.builder()
                 .authenticated(false)
                 .build();
@@ -58,5 +63,22 @@ public class AuthenticationService {
 
     private Optional<UserDB> findUser(LoginRequest loginRequest) {
         return userRepistory.findByUsername(loginRequest.username());
+    }
+
+    private void logUserInfo(String message, UserDB user) {
+        if (user != null) {
+            System.out.println(message);
+            for (Field field : user.getClass().getDeclaredFields()) {
+                field.setAccessible(true);
+                try {
+                    Object value = field.get(user);
+                    System.out.println(field.getName() + ": " + value);
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+        } else {
+            System.out.println("User not found");
+        }
     }
 }

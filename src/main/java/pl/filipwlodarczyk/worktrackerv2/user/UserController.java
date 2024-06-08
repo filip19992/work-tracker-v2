@@ -26,8 +26,8 @@ public class UserController {
         return ResponseEntity.ok(result);
     }
 
-    @GetMapping(value = "/username")
-    public String currentUserName(Authentication authentication) {
-        return authentication.getName();
+    @GetMapping(value = "/current")
+    public UserData getCurrentUserData(Principal principal) {
+        return userService.getUserData(principal.getName());
     }
 }

@@ -34,4 +34,13 @@ public class UserServiceImpl implements UserDetailsService {
     public UserDB findUserByUsername(String username) {
         return userRepistory.findByUsername(username).orElseThrow();
     }
+
+    public UserData getUserData(String name) {
+        var dbUser = findUserByUsername(name);
+        return mapToUserData(dbUser);
+    }
+
+    private UserData mapToUserData(UserDB dbUser) {
+        return new UserData(dbUser.getUsername(), dbUser.getPassword(), dbUser.getRole().toString());
+    }
 }

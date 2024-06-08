@@ -13,7 +13,8 @@ public class ToDoService {
     private final ToDoRepository toDoRepository;
 
     public List<ToDoResponse> getToDoByUserId(Integer userId) {
-        return toDoRepository.findByUserId(userId).orElse(List.of())
+        return toDoRepository.findByUserId(userId)
+                .orElse(List.of())
                 .stream()
                 .map(mapToResponse())
                 .toList();
